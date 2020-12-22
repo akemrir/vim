@@ -1,0 +1,27 @@
+snippet dlog "Debug with Rails logger"
+Rails.logger.debug '#DEBUGSTART'
+Rails.logger.debug $0
+Rails.logger.debug '#DEBUGEND'
+endsnippet
+
+snippet ts_unauthorized "Test unauthorized"
+it 'unauthorized' do
+  get '${1:${VISUAL:path}}', params: {}, headers: {}
+  test_unauthorized
+end
+endsnippet
+
+snippet ts_invalid "Test invalid token"
+it 'invalid token' do
+  get '${1:${VISUAL:path}}', params: {}, headers: headers_valid_auth('wrong_token')
+  test_unauthorized
+end
+endsnippet
+
+snippet ts_success "Test success"
+it 'succeed' do
+  get '${1:${VISUAL:path}}', params: {}, headers: headers_valid_auth(token)
+  test_success
+  expect(response.body).to include run_serializer(V2::$2, $3).to_json
+end
+endsnippet

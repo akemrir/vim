@@ -1,0 +1,522 @@
+#
+# PostgreSQL snippets
+#
+global !p
+def complete_list(t, opts):
+  if t:
+    opts = [m[len(t):] for m in opts if m.startswith(t)]
+  if len(opts) == 1:
+    return opts[0]
+  return '[' + ','.join(opts) + ']'
+def dbobjs():
+  return ['function', 'table', 'schema', 'index']
+def dbpls():
+  return ['plpgsql', 'plpython', 'plpythonu']
+def dbtypes():
+  return ['text', 'integer', 'bigint', 'bigserial', 'serial', 'jsonb', 'double precision', 'timestamp with time zone']
+def dbcnst():
+  return ['exception', 'warning', 'notice']
+endglobal
+
+snippet sel "select statetement" w
+select ${1:*} from ${2:name}${3: where $4}${5: using $6${7: into $8}};
+endsnippet
+
+snippet do "do statetement" w
+do language ${1:plpgsql} $${1/^pl(\w+)u?$/do$1/}$
+${0}
+$${1/^pl(\w+)u?$/do$1/}$;
+endsnippet
+
+snippet beg "begin" w
+begin
+  ${0}
+${1:exception when${2: others} then ${3}}
+end;
+endsnippet
+
+snippet raise "raise" w
+raise $1`!p snip.rv=complete_list(t[1], dbcnst())` ${2:'%', }$0;
+endsnippet
+
+snippet cre "create database object" w
+create $1`!p snip.rv=complete_list(t[1], dbobjs())`$0
+endsnippet
+
+snippet drop "drop database object" w
+drop $1`!p snip.rv=complete_list(t[1], dbobjs())`${2: if exists} ${3:name}${4: (${5:arg})}${6: cascade}${0};
+endsnippet
+
+snippet if "if condition" w
+if ${1:not $2} then
+  $0
+end if;
+endsnippet
+
+snippet exe "execute statetement" w
+execute '$0'${1: ${2:using ${3}}${4: into ${5}}};
+endsnippet
+
+snippet function "create function" w
+${1:or replace }function ${2:function_name} (${3:fa${4}}) returns ${5:void} language ${6:plpgsql} as $${6/^pl(\w+)u?$/$1/}$
+$0
+$${6/^pl(\w+)u?$/$1/}$;
+endsnippet
+
+snippet index "create index" w
+index ${1/\w+\."?(\w+)"?/$1/}_$2_inx on ${1:title} (${2:column_name}${3: opclass});
+endsnippet
+
+snippet table "create table" w
+table${1: if not exists} ${2:table_name} (
+  ${3:tc${4}}
+  $0
+);
+endsnippet
+
+snippet schema "create schema" w
+schema${1: if not exists} ${2:schema_name};
+endsnippet
+
+snippet tc "table column definition" w
+${2:column_title} $1`!p snip.rv=complete_list(t[1], dbtypes())`${3: not null${4}}${5:,
+tc${6}}
+endsnippet
+
+snippet fa "function argument" w
+p_${2} $1`!p snip.rv=complete_list(t[1], dbtypes())`${3:, fa${4}}
+endsnippet
+
+snippet for "for loop" w
+for ${1} in ${0} loop
+end loop;
+endsnippet
+
+snippet role "Create role if not exist" w
+-- +goose StatementBegin
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = '$1') THEN
+    CREATE ROLE ${1:rolename} ${2:noinherit};
+  END IF;
+END
+$$;
+-- +goose StatementEnd
+
+grant select on api.endpoint to $1;
+grant $1 to authenticator;
+grant usage on schema api, SCHEMA to $1;
+endsnippet
+
+snippet enum "Create type if not exist" w
+-- +goose StatementBegin
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = '$1') THEN
+    create type ${1:typename} as enum (${2:'todo', 'doing', 'blocked', 'done'});
+  END IF;
+END
+$$;
+-- +goose StatementEnd
+endsnippet
+
+snippet type "Create type if not exist" w
+-- +goose StatementBegin
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = '$1') THEN
+    create type ${1:typename} as (${2:token text});
+  END IF;
+END
+$$;
+-- +goose StatementEnd
+endsnippet
+
+snippet goose_st "Goose migration statement" w
+-- +goose StatementBegin
+-- +goose StatementEnd $0
+endsnippet
+
+snippet tap_init "Initial version of test for pg_tap" w
+BEGIN; -- Start the transaction
+
+-- Plan count should match the number of tests. If it does
+-- not then pg_prove will fail the test
+SELECT plan(${1:1});
+
+-- Run the tests.
+
+$0
+SELECT is_empty('SELECT account_type FROM SCHEMA.user');
+
+-- Finish the tests and clean up.
+SELECT * FROM finish();
+ROLLBACK;
+endsnippet
+
+snippet pg_sqlstate "Sql state error" w
+  RAISE sqlstate '${1:PT422}' using
+    message = '${2:Account already exists}',
+    detail = '${3:Account with provided data already exists}',
+    hint = '${4:You don`t need to repeat this request}';
+endsnippet
+
+snippet pg_res_others "Resque others" b
+EXCEPTION WHEN others THEN
+  -- catch any exception here so the transaction is not rolled back
+  GET STACKED DIAGNOSTICS _error_msg = MESSAGE_TEXT;
+  RAISE NOTICE E'${1:${VISUAL:schema.function}}: %', _error_msg;
+  return null;
+endsnippet
+
+
+snippet tap_prepare "Sql prepared query" w
+prepare ${1:prepared_query_name} as ${2:query};
+endsnippet
+
+snippet tap_throws_ok "pg_tap throws_ok"
+SELECT throws_ok(
+  '${1:prepared_query_name}',
+  '${2:PT422}'
+);
+endsnippet
+
+snippet tap_performs_ok "pg_tap performs_ok"
+SELECT performs_ok(
+  '${1:prepared_query_name}',
+  '${2:200}'
+);
+endsnippet
+
+snippet tap_results_eq "pg_tap results_eq"
+SELECT results_eq(
+  '${1:SELECT setup_completed FROM SCHEMA.person_profile}',
+  $$VALUES
+    ${2:(false)}
+  $$
+);
+endsnippet
+
+snippet tap_is_empty "pg_tap is_empty"
+SELECT is_empty('SELECT ${1:column} FROM ${2:schema.table}');
+endsnippet
+
+snippet tap_model "pg_tap for model"
+BEGIN; -- Start the transaction
+SELECT plan(${0:2});
+
+\o cols.txt
+select text from cols_tests where schema_table = '${1:schema}.${2:model}';
+select text from col_tests where schema_table = '$1.$2';
+\o
+
+-- Columns
+-- SELECT columns_are('$1', '$2',
+--   ARRAY[ 'id', 'user_id', 'body', 'lang', 'created_at', 'updated_at']
+-- );
+
+-- SELECT col_type_is('$1', '$2', 'id', 'integer', 'type: integer' );
+-- SELECT col_type_is('$1', '$2', 'user_id', 'text', 'type: text' );
+-- SELECT col_type_is('$1', '$2', 'body', 'character varying(500)', 'type: character varying(500)' );
+-- SELECT col_type_is('$1', '$2', 'lang', '$1.locale', 'type: $1.locale' );
+-- SELECT col_type_is('$1', '$2', 'created_at', 'timestamp with time zone', 'type: timestamptz' );
+-- SELECT col_type_is('$1', '$2', 'updated_at', 'timestamp with time zone', 'type: timestamptz' );
+
+-- SELECT col_not_null('$1', '$2', 'user_id', 'should be not null');
+-- SELECT col_not_null('$1', '$2', 'gender', 'should be not null');
+
+-- SELECT col_is_unique('$1', '$2', 'user_id', 'should be unique');
+-- SELECT col_is_unique('$1', '$2', 'nickname', 'should be unique');
+
+-- SELECT col_has_default('$1', '$2', 'user_id', 'should have default');
+-- SELECT col_has_default('$1', '$2', 'created_at', 'should have default');
+-- SELECT col_has_default('$1', '$2', 'updated_at', 'should have default');
+--
+-- Foreign key
+-- SELECT fk_ok('$1', '$2', 'user_id', '$1', 'user', 'id');
+-- SELECT col_is_fk('$1', '$2', 'user_id', 'should be foreign key');
+
+-- Keys
+-- SELECT has_pk('$1', '$2', 'Has a Primary Key' );
+-- SELECT col_is_pk('$1', '$2', 'id', 'Column is Primary Key -- id' );
+-- SELECT col_is_pk('$1', '$2', ARRAY['account_type','premium','attachable_type'], 'Column is Primary Key -- composite' );
+
+-- Indexes
+-- SELECT has_index('$1', '$2', '$2_id_idx', 'id', 'column has index -- id' );
+-- SELECT has_index('$1', '$2', '$2_pkey', 'id', 'column has index -- id' );
+-- SELECT has_index('$1', '$2', '$2_pkey', ARRAY['account_type','premium','attachable_type'], 'Column has index -- composite' );
+-- SELECT indexes_are(
+--     '$1',
+--     '$2',
+--     ARRAY[
+--       '$2_id_idx',
+--       '$2_pkey'
+--     ]
+-- );
+-- SELECT index_is_unique('$1', '$2', 'liking_comment_id_idx');
+
+-- Constraints
+-- SELECT col_is_unique( '$1', '$2', 'id', 'Id columns has unique constraint' );
+
+-- Checks
+-- SELECT has_check('$1', '$2', 'has only_one_resource' );
+-- SELECT col_has_check( '$1', '$2', 'nickname', 'has person_profile_nickname_check' );
+-- SELECT col_has_check( '$1', '$2', 'birthyear', 'has person_profile_birthyear_check' );
+
+SELECT * FROM finish();
+ROLLBACK;
+endsnippet
+
+snippet tap_rpc "pg_tap for rpc function"
+BEGIN; -- Start the transaction
+SELECT plan($0);
+
+set session "request.jwt.claim.uid" to 'some_id';
+
+insert into SCHEMA.user(id, account_type, email, phone)
+  values('some_id', 'person'::SCHEMA.account_type, 'test@gmail.com', '+48111444222');
+insert into SCHEMA.person_profile(user_id, nickname, gender)
+  values('some_id', null, 'male'::SCHEMA.gender);
+insert into SCHEMA.post(id, body, lang)
+  values(1, 'Nowy post', 'pl'::SCHEMA.locale);
+insert into SCHEMA.comment(id, user_id, post_id, body)
+  values(1, 'some_id', 1, 'Nowy post');
+
+SELECT ok( count(*) = 0 ) FROM SCHEMA.liking;
+
+-- prepare not_completed_profile as select * from ${1:api.toggle_like}('{ ${2:"post_id": 1} }'::json);
+-- SELECT throws_ok(
+--   'not_completed_profile',
+--   'PT417',
+--   'Expectation failed'
+-- );
+-- SELECT ok( count(*) = 0 ) FROM SCHEMA.comment;
+
+update SCHEMA.person_profile set first_name = 'Gnom' where user_id = 'some_id';
+update SCHEMA.user set profile_completed = true where id = 'some_id';
+
+SELECT ok( count(*) = 0 ) FROM SCHEMA.liking;
+
+prepare create_post_like as select * from $1('{ $2 }'::json);
+SELECT results_eq(
+  'create_post_like',
+  $$
+    VALUES
+      (1)
+  $$
+);
+SELECT results_eq(
+  'select user_id::text, post_id::text, comment_id::text from SCHEMA.liking',
+  $$VALUES ('some_id'::text, '1'::text, null)$$
+);
+SELECT ok( count(*) = 1 ) FROM SCHEMA.liking;
+
+prepare delete_post_like as select * from $1('{ $2 }'::json);
+SELECT results_eq(
+  'delete_post_like',
+  $$
+    VALUES
+      (1)
+  $$
+);
+SELECT is_empty('select * from SCHEMA.liking');
+SELECT ok( count(*) = 0 ) FROM SCHEMA.liking;
+
+prepare create_comment_like as select * from $1('{ $2 }'::json);
+SELECT results_eq(
+  'create_comment_like',
+  $$
+    VALUES
+      (1)
+  $$
+);
+SELECT results_eq(
+  'select user_id::text, post_id::text, comment_id::text from SCHEMA.liking',
+  $$
+    VALUES
+      ('some_id'::text, null, '1'::text)
+  $$
+);
+SELECT ok( count(*) = 1 ) FROM SCHEMA.liking;
+
+prepare delete_comment_like as select * from $1('{ $2 }'::json);
+SELECT results_eq(
+  'delete_comment_like',
+  $$
+    VALUES
+      (1)
+  $$
+);
+SELECT is_empty('select * from SCHEMA.liking');
+SELECT ok( count(*) = 0 ) FROM SCHEMA.liking;
+
+SELECT * FROM finish();
+ROLLBACK;
+endsnippet
+
+snippet tap_view "pg_tap for api view"
+BEGIN; -- Start the transaction
+SELECT plan(${0:2});
+
+set session "request.jwt.claim.uid" to 'some_id';
+
+\o cols.txt
+select text from cols_tests where schema_table = '${1:schema}.${2:model}';
+select text from col_tests where schema_table = '$1.$2';
+\o
+
+-- Columns
+SELECT columns_are('$1', '$2',
+  ARRAY[ 'unmatched_phone_contacts', 'app_contacts' ]
+);
+
+SELECT col_type_is('$1', '$2', 'unmatched_phone_contacts', 'text[]', 'type: text[]' );
+SELECT col_type_is('$1', '$2', 'app_contacts', 'json[]', 'type: json[]' );
+SELECT col_type_is('$1', '$2', 'id', 'integer', 'type: integer' );
+SELECT col_type_is('$1', '$2', 'user_id', 'text', 'type: text' );
+SELECT col_type_is('$1', '$2', 'body', 'character varying(500)', 'type: character varying(500)' );
+SELECT col_type_is('$1', '$2', 'lang', '$1.locale', 'type: $1.locale' );
+SELECT col_type_is('$1', '$2', 'created_at', 'timestamp with time zone', 'type: timestamptz' );
+SELECT col_type_is('$1', '$2', 'updated_at', 'timestamp with time zone', 'type: timestamptz' );
+
+SELECT * FROM finish();
+ROLLBACK;
+endsnippet
+
+snippet tap_enum "pg_tap for enum"
+BEGIN;
+SELECT plan(1);
+
+SELECT enum_has_labels( '${1:SCHEMA}', '${2:account_type}', ARRAY['${3:appadmin}'${4:,}] );
+
+SELECT * FROM finish();
+ROLLBACK;
+endsnippet
+
+snippet tap_col "pg_tap for column"
+SELECT col_type_is('${1:SCHEMA}', '${2:model}', '${3:created_at}', '${4:timestamp with time zone}', 'type: $4' );
+endsnippet
+
+snippet tap_fk "pg_tap for fk"
+SELECT fk_ok('${1:schema}', '${2:model}', '${3:column}', '$1', '${4:second_model}', '${5:second_column}');
+SELECT col_is_fk('$1', '$2', '$3', 'should be foreign key');
+endsnippet
+
+snippet tap_pk "pg_tap for pk"
+SELECT has_pk('${1:schema}', '${2:model}', 'Has primary key');
+SELECT col_is_pk('$1', '$2', '$3', '$3 is Primary Key' );
+SELECT col_is_pk('$1', '$2', ARRAY['$3'], 'Column is Primary Key -- composite' );
+endsnippet
+
+snippet tap_idx "pg_tap for index"
+SELECT has_index('${1:schema}', '${2:model}', '$2_${3:column}_idx', '$3', 'column has index -- $3' );
+SELECT has_index('$1', '$2', '$2_pkey', '$3', 'column has index -- $3' );
+SELECT has_index('$1', '$2', '$2_$3_idx', ARRAY['$3'], 'Column has index -- composite' );
+SELECT has_index('$1', '$2', '$2_pkey', ARRAY['$3'], 'Column has index -- composite' );
+SELECT indexes_are(
+    '$1',
+    '$2',
+    ARRAY[
+      '$2_$3_idx',
+      '$2_pkey'
+    ]
+);
+SELECT index_is_unique('$1', '$2', '$2_$3_idx');
+SELECT index_is_unique('$1', '$2', '$2_pkey');
+endsnippet
+
+snippet tap_composite "pg_tap for composite"
+BEGIN;
+SELECT plan(${4:9});
+
+SELECT columns_are('${1:SCHEMA}', '${2:user_search_query}',
+  ARRAY[ ${3:'q', 'age_from', 'age_to', 'gender', 'is_company', 'latitude', 'longitude', 'radius'} ]
+);
+
+SELECT col_type_is('$1', '$2', 'q', 'text', 'type: text');
+SELECT col_type_is('$1', '$2', 'age_from', 'integer', 'type: integer');
+SELECT col_type_is('$1', '$2', 'age_to', 'integer', 'type: integer');
+SELECT col_type_is('$1', '$2', 'gender', 'SCHEMA.gender', 'type: SCHEMA.gender');
+SELECT col_type_is('$1', '$2', 'is_company', 'boolean', 'type: boolean');
+SELECT col_type_is('$1', '$2', 'latitude', 'double precision', 'type: double precision');
+SELECT col_type_is('$1', '$2', 'longitude', 'double precision', 'type: double precision');
+SELECT col_type_is('$1', '$2', 'radius', 'real', 'type: real');
+SELECT col_type_is('$1', '$2', 'created_at', 'timestamp with time zone', 'type: timestamptz' );
+SELECT col_type_is('$1', '$2', 'updated_at', 'timestamp with time zone', 'type: timestamptz' );
+
+SELECT * FROM finish();
+ROLLBACK;
+endsnippet
+
+snippet tap_schema "pg_tap for schema"
+BEGIN;
+SELECT plan(5);
+
+SELECT has_schema('${1:auth}');
+
+SELECT * FROM finish();
+ROLLBACK;
+endsnippet
+
+snippet tap_extension "pg_tap for extension"
+BEGIN;
+SELECT plan(1);
+
+SELECT has_extension( '${1:SCHEMA}', '${2:extension}' );
+SELECT has_extension( '${3:extension}' );
+
+SELECT * FROM finish();
+ROLLBACK;
+endsnippet
+
+snippet tap_session "pg_tap session for auth.current_user() and auth.current_user_role()"
+set session "request.jwt.claim.${1:user_id}" to '${2:some_id}';
+set session "request.jwt.claim.${3:uid}" to '$2';
+set session "${4:request.jwt.claim.role}" to '${5:person}';
+endsnippet
+
+snippet pg_case "case"
+case ${1:checked_resource}
+when '${2:condition}' then
+  ${3:statement};
+else
+  ${4:statement};
+end case;
+endsnippet
+
+snippet pg_if "if"
+if ${1:_deleted_count > 0} then
+  ${2:statement};
+else
+  ${3:statement};
+end if;
+endsnippet
+
+snippet tap_count "check count of elements"
+SELECT ok( ${1:count(*) = 1} ) FROM ${2:table};
+endsnippet
+
+snippet tap_diag "diag to output to console"
+SELECT diag( ${1:format('%s, %s', count(*), aa)} ) FROM ${2:table};
+SELECT diag( ${1:format('%s - %s', count(*), user_id)} ) FROM ${2:SCHEMA.user_activity group by user_id};
+SELECT diag( row_to_json(rr) ) FROM ${1:api.popular_word_phrase_relations} rr;
+SELECT diag( format('(''%s'', ),', rr.col) ) FROM $2 rr;
+endsnippet
+
+snippet tap_skip "skip tests"
+BEGIN;
+SELECT plan(1);
+
+select skip('${1:Not testable}');
+
+SELECT * FROM finish();
+ROLLBACK;
+endsnippet
+
+snippet tap_empty "empty"
+BEGIN;
+SELECT plan(1);
+
+SELECT * FROM finish();
+ROLLBACK;
+endsnippet

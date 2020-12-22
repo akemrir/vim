@@ -1,0 +1,74 @@
+snippet fr "FROM ubuntu"
+FROM ${1:ubuntu}
+endsnippet
+
+snippet l "LABEL label=value}"
+LABEL ${1:label}="${2:value}"
+endsnippet
+
+snippet lm "LABEL maintainer=name"
+LABEL maintainer="${1:name}"
+endsnippet
+
+snippet run "RUN command"
+RUN ${1:command}
+endsnippet
+
+snippet cmd "CMD command"
+CMD ${1:command}
+endsnippet
+
+snippet com "CMD command"
+CMD ${1:command}
+endsnippet
+
+snippet cp "COPY src dest"
+COPY ${1:src} ${2:dest}
+endsnippet
+
+snippet exp "EXPOSE port"
+EXPOSE ${1:port}
+endsnippet
+
+snippet e "ENV key value"
+ENV ${1:key} ${2:value}
+endsnippet
+
+snippet a "ADD src dst"
+ADD ${1:src} ${2:dst}
+endsnippet
+
+snippet ent "ENTRYPOINT command"
+ENTRYPOINT ${1:command}
+endsnippet
+
+snippet v "VOLUME ['path']"
+VOLUME ["${1:path}"]
+endsnippet
+
+snippet u "USER name"
+USER ${1:name}
+endsnippet
+
+snippet w "WORKDIR path"
+WORKDIR ${1:path}
+endsnippet
+
+snippet upd
+# update packages
+RUN echo "deb http://archive.ubuntu.com/ubuntu ${1:precise} main universe" > /etc/apt/sources.list; \
+    apt-get update && apt-get -y upgrade; \
+    ${2}
+    ;rm -rf /var/lib/apt/lists/*
+endsnippet
+
+snippet head
+# ${1:Description}
+#
+# VERSION ${2:0.1.0}
+${3}
+endsnippet
+
+snippet o "ONBUILD 1"
+ONBUILD ${1}
+endsnippet

@@ -1,0 +1,1 @@
+/home/akemrir/projekty/ruby/apps/vimer/Vimer.vim

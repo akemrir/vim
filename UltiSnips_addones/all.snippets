@@ -1,0 +1,123 @@
+snippet date "Date"
+${2:${1:`date +%d`}.`date +%m`}.`date +%Y`
+endsnippet
+
+snippet todo "TODO Reminder" b
+`!v substitute(get(b:, 'commentary_format', &commentstring), '[%s\s\+$]', '', "g")`TODO: ${1:What to do?}, `date +"%Y-%m-%d"`
+endsnippet
+
+snippet fixme "FIXME Reminder" b
+`!v substitute(get(b:, 'commentary_format', &commentstring), '[%s\s\+$]', '', "g")`FIXME: ${1:What to do?}, `date +"%Y-%m-%d"`
+endsnippet
+
+snippet note "NOTE Reminder" b
+`!v substitute(get(b:, 'commentary_format', &commentstring), '[%s\s\+$]', '', "g")`NOTE: ${1:What to do?}, `date +"%Y-%m-%d"`
+endsnippet
+
+snippet review "REVIEW Reminder" b
+`!v substitute(get(b:, 'commentary_format', &commentstring), '[%s\s\+$]', '', "g")`REVIEW: ${1:What to do?}, `date +"%Y-%m-%d"`
+endsnippet
+
+snippet warn "Warning Reminder" b
+`!v substitute(get(b:, 'commentary_format', &commentstring), '[%s\s\+$]', '', "g")`WARNING: ${1:What to warn?}, `date +"%Y-%m-%d"`
+endsnippet
+
+snippet info "Info Reminder" b
+`!v substitute(get(b:, 'commentary_format', &commentstring), '[%s\s\+$]', '', "g")`INFO: ${1:What to info?}, `date +"%Y-%m-%d"`
+endsnippet
+
+global !p
+def cs(snip):
+    c = '#'
+    cs = snip.opt("&commentstring")
+    if len(cs) == 3:
+        c = cs[0]
+    return c
+endglobal
+
+# Special thanks to Doctorbh on Github (www.github.com/doctorbh) for this one.
+snippet cbox "Comment header in a pretty box" b
+`!p
+c = cs(snip)
+n = '-'
+bar = c + ' '
+bar += 73*n
+
+snip.rv = bar
+snip += c + " " + (71-len(t[1]))/2*' '
+`${1:content}`!p
+
+a = 71-len(t[1])
+snip.rv = (a/2 + a%2) * " " + " " + '|'
+snip += bar`
+$0
+endsnippet
+
+snippet note_init
+# Title: ${1:title}
+> File: `!v bufname("%")`
+> Maintainer: `id -u -n`
+> Created at:
+>   Date: `date +"%Y-%m-%d"`
+>   Hour: `date +"%H:%M"`
+
+${2:content}
+endsnippet
+
+global !p
+import re
+
+def tableize(inp):
+	out = inp.lower().replace(" ", "_").replace("'", "").replace('"', "")
+	out = re.sub('[^0-9a-zA-Z_]+', '', out)
+	return out
+endglobal
+
+global !p
+import re
+
+def jsx_file(inp):
+	out = inp.split(".")[0]
+	out = re.sub("^_", '', out)
+	return out
+endglobal
+
+#snippet t "I18n translation"
+#I18n.t("`!p snip.rv=tableize(t[1])`", default: "${1:${VISUAL:Some Custom Key}}")
+#endsnippet
+#
+#snippet td "I18n translation dot"
+#I18n.t(".`!p snip.rv=tableize(t[1])`", default: "${1:${VISUAL:Some Custom Key}}")
+#endsnippet
+#
+#snippet tc "I18n translation common"
+#I18n.t("common.`!p snip.rv=tableize(t[1])`", default: "${1:${VISUAL:Some Custom Key}}")
+#endsnippet
+
+# snippet t "I18n translation"
+# t("${1:`!p snip.rv=tableize(snip.v.text)`}")'${1:${VISUAL:some_key}}'
+# endsnippet
+
+# snippet td "I18n translation dot"
+# t(".${1:`!p snip.rv=tableize(snip.v.text)`}")'${1:${VISUAL:some_key}}'
+# endsnippet
+
+# snippet tc "I18n translation common"
+# t("common.${1:`!p snip.rv=tableize(snip.v.text)`}")'${1:${VISUAL:some_key}}'
+# endsnippet
+
+snippet t "I18n translation"
+t("`!p snip.rv=tableize(t[1])`", default: "${1:${VISUAL:Some Custom Key}}")
+endsnippet
+
+snippet td "I18n translation dot"
+t(".`!p snip.rv=tableize(t[1])`", default: "${1:${VISUAL:Some Custom Key}}")
+endsnippet
+
+snippet tc "I18n translation common"
+t("common.`!p snip.rv=tableize(t[1])`", default: "${1:${VISUAL:Some Custom Key}}")
+endsnippet
+
+snippet jt "I18n translation common for jsx"
+I18n.t("components.`!p snip.rv=jsx_file(fn)`.${1:${VISUAL:some_key}}")
+endsnippet

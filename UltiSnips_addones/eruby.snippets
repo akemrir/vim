@@ -1,0 +1,15 @@
+snippet erb "Erb block"
+<%= $1 %>
+  $2
+<% end %>
+endsnippet
+
+snippet erc "Erb comment"
+<%# $1 %>
+endsnippet
+
+snippet each "Each loop"
+<% ${1:@users}.each do |${2:users}| %>
+  <%= ${3:do something} %>
+<% end %>
+endsnippet

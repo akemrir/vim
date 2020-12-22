@@ -1,0 +1,134 @@
+global !p
+def write_js_vars(arglist, snip):
+  args = str(arglist).split(',')
+  for arg in args:
+    name = arg.strip().replace(':', ' ').split(' ', 1)[0]
+    if name:
+      snip += '  const {} = {};'.format(name, name)
+    else:
+      snip += ''
+
+def exp_name(snip):
+  file_name = snip.fn.split('.')[0]
+  snip.rv = file_name
+
+endglobal
+
+snippet stc "export const Component = () {..."
+export const ${1:ComponentName} = ({ $2, children }) => (
+  `!p write_js_vars(t[2],snip)`
+  <div>
+    {children}
+    $0
+  </div>
+);
+endsnippet
+
+
+snippet class "Class shortcut"
+class ${1:${VISUAL:SomeCustomClass}} extends React.Component {
+}
+endsnippet
+
+snippet @ "Binding in constructor"
+this.${1:${VISUAL:someMethod}} = this.$1.bind(this)
+endsnippet
+
+snippet con "Constructor"
+constructor(props) {
+  super(props);
+  this.state = ${1:${VISUAL:\{\}}}
+}
+endsnippet
+
+snippet log "Insert cosole.log"
+console.log($1);
+endsnippet
+
+snippet logc "insert log with color"
+console.log('%c$1', 'font-weight:bold;color:${2:green};');
+endsnippet
+
+snippet logi "insert log with color"
+console.log(\`%c${$1}\`, 'font-weight:bold;color:${2:green};');
+endsnippet
+
+snippet logl "Insert logger.info with stringify"
+logger.info(\`$1: ${JSON.stringify($1)}\`);
+endsnippet
+
+snippet logs "Insert console.log with stringify"
+console.log(\`$1: ${JSON.stringify($1)}\`);
+endsnippet
+
+snippet logv "Insert console.log with variable interpolated"
+console.log(\`$1: ${$1}\`);
+endsnippet
+
+snippet wb_form "insert weblify form"
+<form class='$1'>
+  $2
+</form>
+endsnippet
+
+snippet wb_drop "insert weblify dropdown"
+<div class='dropdown $1'>
+  <DropdownTop title='$1' />
+  $2
+  <DropdownBottom title='$1' />
+</div>
+endsnippet
+
+snippet ir "Import react"
+import React${1:, { useState, useEffect }} from 'react';
+endsnippet
+
+snippet nf "Named function"
+const `!p exp_name(snip)` = ({ $1${2:, children} }) => {
+  return <>
+    ${3:{children}}
+  </>;
+}
+endsnippet
+
+snippet afn "Creates an anonymous function in ES6 syntax"
+(${1:params}) => {${2}}
+endsnippet
+
+snippet dob "Creates and assigns a local variable using object destructing"
+const {${2:propertyName}} = ${1:objectToDestruct};
+endsnippet
+
+snippet dar "Creates and assigns a local variable using array destructing"
+const [${2:propertyName}] = ${1:arrayToDestruct};
+endsnippet
+
+snippet sti "Executes the given function at specified intervals in ES6 syntax"
+setInterval(() => {
+  ${2}
+}, ${0:intervalInms});
+endsnippet
+
+snippet sto "Executes the given function after the specified delay in ES6 syntax"
+setTimeout(() => {
+  ${2}
+}, ${1:delayInms});
+endsnippet
+
+snippet prom "Creates and returns a new Promise in the standard ES6 syntax"
+return new Promise((resolve, reject) => {
+  ${1}
+});
+endsnippet
+
+snippet ed "Export default"
+export default `!p exp_name(snip)`;
+endsnippet
+
+snippet iml "Import relative to current file"
+import $1 from './$1';
+endsnippet
+
+snippet esig "eslint ignore line"
+// eslint-disable-line ${1:react-hooks/exhaustive-deps}
+endsnippet

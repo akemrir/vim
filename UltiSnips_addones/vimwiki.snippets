@@ -1,0 +1,14 @@
+snippet title "Create title with date"
+== Day `date +%d` - ${1:title} ==
+${0:content}
+endsnippet
+
+snippet title2 "Titelize in the Transformation"
+${1:a text}
+${1/\w+\s*/\u$0/g}
+endsnippet
+
+snippet random
+`#!/usr/bin/ruby
+puts Random.rand(20000000)`
+endsnippet
