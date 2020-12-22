@@ -757,7 +757,7 @@ set tags+=./tags;
 
 " PLUGINS AND PACKAGES {{{1
 " specjalnie, wymaga tego polyglot
-let g:polyglot_disabled = ['markdown'] " for vim-polyglot users, it loads Plasticboy's markdown
+let g:polyglot_disabled = ['markdown', 'fish'] " for vim-polyglot users, it loads Plasticboy's markdown
                                        " plugin which unfortunately interferes with mkdx list indentation.
 
 call plug#begin('~/.vim/plugged')
@@ -1022,8 +1022,10 @@ let g:fzf_commits_log_options = '--color=always --format="%C(auto)%h%d %s %C(bla
 let g:fzf_buffers_jump = 1
 let g:fzf_tags_command = 'qtags'
 let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
   \ 'ctrl-s': 'split',
-  \ 'ctrl-v': 'vsplit' }
+  \ 'ctrl-v': 'vsplit'
+  \ }
 let g:fzf_preview_window = ''
 let g:fzf_layout = { 'down': '40%' }
 let g:Lf_StlColorscheme = 'gruvbox'
