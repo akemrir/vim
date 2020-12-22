@@ -1025,6 +1025,7 @@ let g:fzf_action = {
   \ 'ctrl-s': 'split',
   \ 'ctrl-v': 'vsplit' }
 let g:fzf_preview_window = ''
+let g:fzf_layout = { 'down': '40%' }
 let g:Lf_StlColorscheme = 'gruvbox'
 let g:Lf_StlSeparator = { 'left': '', 'right': '' }
 let g:Lf_NoChdir = 1
