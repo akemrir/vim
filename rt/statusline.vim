@@ -80,7 +80,7 @@ function! Statusline() abort
   let l:statusline .= s:sep('%{&expandtab?"spaces":"tabs"}:%{&sw}')            "Are spaces or tabs used for indentation and how much spaces is single indent
   " let l:statusline .= s:sep('col:%c', s:st_mode)                               "Column number
   " let l:statusline .= s:sep('%c/%l/%L:%p%%', s:st_mode)                             "Current line number/Total line numbers
-  let l:statusline .= s:sep('%c:%l', s:st_mode)                             "Current line number/Total line numbers
+  let l:statusline .= s:sep('%c:%l:%L', s:st_mode)                             "Current line number/Total line numbers
   " let l:statusline .= s:sep('%p%%', s:st_mode)                                  "Percentage
   let l:err = s:ale_status('error')
   let l:warn = s:ale_status('warning')

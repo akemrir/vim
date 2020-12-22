@@ -741,8 +741,8 @@ let &t_SI = "\<Esc>[6 q"
 let &t_SR = "\<Esc>[4 q"
 let &t_EI = "\<Esc>[2 q"
 
-set foldmethod=indent
-set nofoldenable
+set foldmethod=syntax
+" set nofoldenable
 
 " set dictionary+=/usr/share/dict/polish
 " set dictionary+=/usr/share/dict/words
@@ -1222,32 +1222,32 @@ hi! ALEWarning ctermbg=none cterm=underline
 
 " STATUS LINE {{{1
 
-set statusline=
-set statusline+={%{NumOfBufs()}}       " Number of buffers
-set statusline+=\ \                    " Separator
-set statusline+=%f                     " Relative path to the file
-set statusline+=\ \                    " Separator
-set statusline+=%y                     " Filetype
-set statusline+=[%{&ff}]               " File format
-set statusline+=[%{FileEncoding()}]    " File encoding
-set statusline+=\ \                    " Separator
-set statusline+=[%{&fo}]               " Format options
-set statusline+=\ \                    " Separator
-set statusline+=[%{FileSize()}]        " File size
-set statusline+=\ \                    " Separator
-set statusline+=%r                     " Readonly flag
-set statusline+=%{&ma\|\|&ro?'':'[-]'} " No modifiable flag
-set statusline+=%w                     " Preview flag
-set statusline+=\ \                    " Separator
-set statusline+=%{ModifBufs()}         " Modified flag (extended)
-set statusline+=%=                     " Switch to the right side
-set statusline+=%{IssuesCount()}       " Count of errors, warnings
-set statusline+=\ \                    " Separator
-set statusline+=<0x%02B>               " Current char hex code
-set statusline+=\ \                    " Separator
-set statusline+=%l/                    " Current line
-set statusline+=%L                     " Total lines
-set statusline+=\ \:\ %c\              " Current column
+" set statusline=
+" set statusline+={%{NumOfBufs()}}       " Number of buffers
+" set statusline+=\ \                    " Separator
+" set statusline+=%f                     " Relative path to the file
+" set statusline+=\ \                    " Separator
+" set statusline+=%y                     " Filetype
+" set statusline+=[%{&ff}]               " File format
+" set statusline+=[%{FileEncoding()}]    " File encoding
+" set statusline+=\ \                    " Separator
+" set statusline+=[%{&fo}]               " Format options
+" set statusline+=\ \                    " Separator
+" set statusline+=[%{FileSize()}]        " File size
+" set statusline+=\ \                    " Separator
+" set statusline+=%r                     " Readonly flag
+" set statusline+=%{&ma\|\|&ro?'':'[-]'} " No modifiable flag
+" set statusline+=%w                     " Preview flag
+" set statusline+=\ \                    " Separator
+" set statusline+=%{ModifBufs()}         " Modified flag (extended)
+" set statusline+=%=                     " Switch to the right side
+" set statusline+=%{IssuesCount()}       " Count of errors, warnings
+" set statusline+=\ \                    " Separator
+" set statusline+=<0x%02B>               " Current char hex code
+" set statusline+=\ \                    " Separator
+" set statusline+=%l/                    " Current line
+" set statusline+=%L                     " Total lines
+" set statusline+=\ \:\ %c\              " Current column
 
 " ### OTHER {{{1
 
@@ -1265,6 +1265,7 @@ autocmd QuickFixCmdPost    l* nested lwindow
 " spell
 au BufReadPost,BufNewFile *.tex setlocal spell spelllang=pl
 " au BufReadPost,BufNewFile *.md setlocal spell spelllang=pl
+au BufReadPost,BufNewFile *.md setlocal spell foldmethod=syntax
 au FileType gitcommit setlocal spell spelllang=en
 au FileType mail setlocal spell spelllang=pl
 
@@ -1319,6 +1320,6 @@ if filereadable("_vimrc")
   source _vimrc
 endif
 
-" call s:source_file('statusline.vim')
+call s:source_file('statusline.vim')
 
 set secure exrc
