@@ -5,6 +5,6 @@ if executable("tmux") && ( &term =~? "screen" || &term =~? "xterm" )
     let &t_ts = "\e]2;"
   endif
 
-  MinPlug christoomey/vim-tmux-navigator
+  " MinPlug christoomey/vim-tmux-navigator
 
 endif

@@ -1,1 +1,1 @@
-/home/akemrir/projekty/ruby/apps/vimer/Vimer.vim
+/home/akemrir/code/vimer/Vimer.vim

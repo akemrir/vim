@@ -143,7 +143,7 @@ let s:formatprg_for_filetype = {
       \ "javascript"  : "js-beautify -s 2",
       \ "json"        : "js-beautify -s 2",
       \ "python"      : "autopep8 -",
-      \ "sql"         : "sqlformat -k upper -r -",
+      \ "sql"         : "sqlformat -k lower -i lower -r -",
       \ "xhtml"       : "tidy -asxhtml -q -m -w -i --show-warnings 0 --show-errors 0 --tidy-mark no --doctype loose",
       \ "xml"         : "tidy -xml -q -m -w -i --show-warnings 0 --show-errors 0 --tidy-mark no",
       \}
@@ -975,11 +975,12 @@ let g:ale_echo_msg_format            = '[%linter%]: %s'
 let g:ale_enabled                    = 0
 let g:ale_set_loclist                = 0
 let g:ale_set_quickfix               = 1
-let g:ale_set_signs                  = 0
+let g:ale_set_signs                  = 1
 let g:ale_sign_warning = ''
 let g:ale_sign_error = ''
 let g:ale_sql_sqlint_command = 'bundle exec sqlint'
 let g:ale_sql_sqlint_use_global = 1
+let g:ale_javascript_eslint_use_global = 1
 let g:ctrlp_brief_prompt             = 1
 let g:ctrlp_clear_cache_on_exit      = 0
 let g:ctrlp_extensions               = [ 'buffertag', 'quickfix' ]
