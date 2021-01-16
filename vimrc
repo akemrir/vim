@@ -1035,8 +1035,8 @@ let g:Lf_NoChdir = 1
 " snippets
 let g:mucomplete#enable_auto_at_startup = 1
 " let g:miniSnip_dirs = ['~/.vimjapet/other_addons/miniSnip']
-let mucomplete#user_mappings = {'minisnips': "\<C-r>=mucomplete#minisnips#complete()\<CR>"}
-let g:mucomplete#chains = { 'default': ['minisnips', 'tags', 'dict', 'omni', 'keyn'], 'vim': ['path', 'cmd', 'keyn'] }
+let mucomplete#user_mappings = {'minis': "\<C-r>=miniSnip#completeMapping()\<CR>"}
+let g:mucomplete#chains = { 'default': ['minis', 'tags', 'dict', 'omni', 'keyn'], 'vim': ['path', 'cmd', 'keyn'] }
 let g:mucomplete#no_mappings = 1
 let g:no_plugin_maps = 1
 let g:mucomplete#minimum_prefix_length = 1
