@@ -1,0 +1,12 @@
+let transaction = await queryInterface.sequelize.transaction();
+try {
+    sq_tab
+    sq_col
+    <{+}>
+
+    await transaction.commit();
+} catch (err) {
+    if (transaction) await transaction.rollback();
+    return Promise.reject(err);
+}
+return Promise.resolve();

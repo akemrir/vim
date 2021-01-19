@@ -1,0 +1,6 @@
+? *_updated_at_trigger
+create trigger <{table}>_updated_at_trigger
+  before update on <{schema}>.<{~1}>
+  for each row execute procedure ext.mark_updated_at();
+-- down<{+}>
+drop trigger <{~1}>_updated_at_trigger on <{~2}>.<{~1}>;

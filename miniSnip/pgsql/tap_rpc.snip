@@ -1,0 +1,85 @@
+? pg_tap rpc function
+BEGIN; -- Start the transaction
+SELECT plan(<{0}>);
+
+set session "request.jwt.claim.uid" to 'some_id';
+
+insert into <{schema}>.user(id, account_type, email, phone)
+  values('some_id', 'person'::<{~2}>.account_type, 'test@gmail.com', '+48111444222');
+insert into <{~2}>.person_profile(user_id, nickname, gender)
+  values('some_id', null, 'male'::<{~2}>.gender);
+insert into <{~2}>.post(id, body, lang)
+  values(1, 'Nowy post', 'pl'::<{~2}>.locale);
+insert into <{~2}>.comment(id, user_id, post_id, body)
+  values(1, 'some_id', 1, 'Nowy post');
+
+SELECT ok( count(*) = 0 ) FROM <{~2}>.liking;
+
+-- prepare not_completed_profile as select * from <{api.toggle_like}>('{ <{"post_id": 1}> }'::json);
+-- SELECT throws_ok(
+--   'not_completed_profile',
+--   'PT417',
+--   'Expectation failed'
+-- );
+-- SELECT ok( count(*) = 0 ) FROM <{~2}>.comment;
+
+update <{~2}>.person_profile set first_name = 'Gnom' where user_id = 'some_id';
+update <{~2}>.user set profile_completed = true where id = 'some_id';
+
+SELECT ok( count(*) = 0 ) FROM <{~2}>.liking;
+
+prepare create_post_like as select * from <{~3}>('{ <{~4}> }'::json);
+SELECT results_eq(
+  'create_post_like',
+  $$
+    VALUES
+      (1)
+  $$
+);
+SELECT results_eq(
+  'select user_id::text, post_id::text, comment_id::text from <{~2}>.liking',
+  $$VALUES ('some_id'::text, '1'::text, null)$$
+);
+SELECT ok( count(*) = 1 ) FROM <{~2}>.liking;
+
+prepare delete_post_like as select * from <{~3}>('{ <{~4}> }'::json);
+SELECT results_eq(
+  'delete_post_like',
+  $$
+    VALUES
+      (1)
+  $$
+);
+SELECT is_empty('select * from <{~2}>.liking');
+SELECT ok( count(*) = 0 ) FROM <{~2}>.liking;
+
+prepare create_comment_like as select * from <{~3}>('{ <{~4}> }'::json);
+SELECT results_eq(
+  'create_comment_like',
+  $$
+    VALUES
+      (1)
+  $$
+);
+SELECT results_eq(
+  'select user_id::text, post_id::text, comment_id::text from <{~2}>.liking',
+  $$
+    VALUES
+      ('some_id'::text, null, '1'::text)
+  $$
+);
+SELECT ok( count(*) = 1 ) FROM <{~2}>.liking;
+
+prepare delete_comment_like as select * from <{~3}>('{ <{~4}> }'::json);
+SELECT results_eq(
+  'delete_comment_like',
+  $$
+    VALUES
+      (1)
+  $$
+);
+SELECT is_empty('select * from <{~2}>.liking');
+SELECT ok( count(*) = 0 ) FROM <{~2}>.liking;
+
+SELECT * FROM finish();
+ROLLBACK;

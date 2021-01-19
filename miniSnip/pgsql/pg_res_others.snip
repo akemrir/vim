@@ -1,0 +1,6 @@
+? Resque others
+EXCEPTION WHEN others THEN
+  -- catch any exception here so the transaction is not rolled back
+  GET STACKED DIAGNOSTICS _error_msg = MESSAGE_TEXT;
+  RAISE NOTICE E'<{function}>: %', _error_msg;
+  return null;

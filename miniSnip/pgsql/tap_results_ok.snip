@@ -1,0 +1,7 @@
+? pg_tap results_eq
+SELECT results_eq(
+  '<{SELECT setup_completed FROM SCHEMA.person_profile}>',
+  $$VALUES
+    <{(false)}>
+  $$
+);

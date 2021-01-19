@@ -1,0 +1,4 @@
+? add unique index
+create unique index <{table}>_<{name}>_unique_idx on <{schema}>.<{~1}> (<{lower(name)}>);
+-- down
+drop index <{~3}>.<{~1}>_<{~2}>_unique_idx;

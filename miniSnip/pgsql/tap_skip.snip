@@ -1,0 +1,8 @@
+? pg_tap skip tests
+BEGIN;
+SELECT plan(1);
+
+select skip('<{Not testable}>');
+
+SELECT * FROM finish();
+ROLLBACK;

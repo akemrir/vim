@@ -1,0 +1,6 @@
+? alter type attributes
+alter type <{schema}>.<{type_name}> add attribute email email;
+alter type <{~1}>.<{~2}> add attribute nickname character varying(40);
+-- down<{+}>
+alter type <{~1}>.<{~2}> drop attribute email;
+alter type <{~1}>.<{~2}> drop attribute nickname;

@@ -1,0 +1,29 @@
+? pg_tap api view
+BEGIN; -- Start the transaction
+SELECT plan(<{0}>);
+
+set session "request.jwt.claim.uid" to 'some_id';
+
+\o cols.txt
+select text from cols_tests where schema_table = '<{schema}>.<{model}>';
+select text from col_tests where schema_table = '<{~2}>.<{~3}>';
+\o
+
+-- Columns
+SELECT columns_are('<{~2}>', '<{~3}>',
+  ARRAY[ 'unmatched_phone_contacts', 'app_contacts' ]
+);
+
+SELECT col_type_is('<{~2}>', '<{~3}>', 'unmatched_phone_contacts', 'text[]', 'type: text[]' );
+SELECT col_type_is('<{~2}>', '<{~3}>', 'app_contacts', 'json[]', 'type: json[]' );
+SELECT col_type_is('<{~2}>', '<{~3}>', 'id', 'integer', 'type: integer' );
+SELECT col_type_is('<{~2}>', '<{~3}>', 'id', 'ext.identifier', 'type: ext.identifier' );
+SELECT col_type_is('<{~2}>', '<{~3}>', 'user_id', 'text', 'type: text' );
+SELECT col_type_is('<{~2}>', '<{~3}>', 'body', 'character varying(500)', 'type: character varying(500)' );
+SELECT col_type_is('<{~2}>', '<{~3}>', 'lang', '<{~2}>.locale', 'type: <{~2}>.locale' );
+SELECT col_type_is('<{~2}>', '<{~3}>', 'created_at', 'timestamp with time zone', 'type: timestamptz' );
+SELECT col_type_is('<{~2}>', '<{~3}>', 'updated_at', 'timestamp with time zone', 'type: timestamptz' );
+
+SELECT * FROM finish();
+ROLLBACK;
+

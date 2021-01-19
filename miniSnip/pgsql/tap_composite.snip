@@ -1,0 +1,21 @@
+? pg_tap composite
+BEGIN;
+SELECT plan(<{9}>);
+
+SELECT columns_are('<{SCHEMA}>', '<{user_search_query}>',
+  ARRAY[ <{'q', 'age_from', 'age_to', 'gender', 'is_company', 'latitude', 'longitude', 'radius'}> ]
+);
+
+SELECT col_type_is('<{~2}>', '<{~3}>', 'q', 'text', 'type: text');
+SELECT col_type_is('<{~2}>', '<{~3}>', 'age_from', 'integer', 'type: integer');
+SELECT col_type_is('<{~2}>', '<{~3}>', 'age_to', 'integer', 'type: integer');
+SELECT col_type_is('<{~2}>', '<{~3}>', 'gender', 'SCHEMA.gender', 'type: SCHEMA.gender');
+SELECT col_type_is('<{~2}>', '<{~3}>', 'is_company', 'boolean', 'type: boolean');
+SELECT col_type_is('<{~2}>', '<{~3}>', 'latitude', 'double precision', 'type: double precision');
+SELECT col_type_is('<{~2}>', '<{~3}>', 'longitude', 'double precision', 'type: double precision');
+SELECT col_type_is('<{~2}>', '<{~3}>', 'radius', 'real', 'type: real');
+SELECT col_type_is('<{~2}>', '<{~3}>', 'created_at', 'timestamp with time zone', 'type: timestamptz' );
+SELECT col_type_is('<{~2}>', '<{~3}>', 'updated_at', 'timestamp with time zone', 'type: timestamptz' );
+
+SELECT * FROM finish();
+ROLLBACK;

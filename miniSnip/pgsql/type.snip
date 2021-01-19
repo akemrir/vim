@@ -1,0 +1,10 @@
+? Create type if not exist
+-- +goose StatementBegin
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = '<{name}>') THEN
+    create type <{~1}> as (<{token text}>);
+  END IF;
+END
+$$;
+-- +goose StatementEnd

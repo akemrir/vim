@@ -1,0 +1,5 @@
+? pg_tap session for auth.current_user() and auth.current_user_role()
+set session "request.jwt.claim.<{user_id}>" to '<{some_id}>';
+set session "request.jwt.claim.<{uid}>" to '<{~2}>';
+set session "<{request.jwt.claim.role}>" to '<{person}>';
+

@@ -1,0 +1,18 @@
+await queryInterface.addColumn(
+    '<{Potties}>',
+    '<{ChildId}>',
+    {
+        type: Sequelize.<{INTEGER}>,
+        references: {
+            model: 'Child',
+            key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+    },
+    {
+        transaction,
+    }
+);
+await queryInterface.removeColumn('<{~1}>', '<{~2}>', { transaction });
+<{+}>

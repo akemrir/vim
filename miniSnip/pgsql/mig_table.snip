@@ -1,0 +1,11 @@
+? create table
+create table <{schema}>.<{table}> (
+  id bigserial primary key,
+  name varchar(100) not null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+
+  check_poly
+);
+-- down
+drop table <{~1}>.<{~2}>;

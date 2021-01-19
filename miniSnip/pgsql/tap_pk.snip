@@ -1,0 +1,4 @@
+? pg_tap pk
+SELECT has_pk('<{schema}>', '<{model}>', 'Has primary key');
+SELECT col_is_pk('<{~1}>', '<{~2}>', '<{column}>', '<{~3}> is Primary Key' );
+SELECT col_is_pk('<{~1}>', '<{~2}>', ARRAY['<{~3}>'], 'Column is Primary Key -- composite' );

@@ -1,0 +1,14 @@
+? Create role if not exist
+-- +goose StatementBegin
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = '<{role}>') THEN
+    CREATE ROLE <{~1}> <{noinherit}>;
+  END IF;
+END
+$$;
+-- +goose StatementEnd
+
+grant select on api.endpoint to <{~1}>;
+grant <{~1}> to authenticator;
+grant usage on schema api, <{schema}> to <{~1}>;
