@@ -1,8 +1,8 @@
 ? pg_tap rpc function
-BEGIN; -- Start the transaction
+BEGIN;
 SELECT plan(<{0}>);
 
-set session "request.jwt.claim.uid" to 'some_id';
+tap_session
 
 insert into <{schema}>.user(id, account_type, email, phone)
   values('some_id', 'person'::<{~2}>.account_type, 'test@gmail.com', '+48111444222');

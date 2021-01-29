@@ -1,0 +1,11 @@
+? pg_tap privs
+BEGIN;
+SELECT plan(<{2}>);
+
+\o cols.txt
+select text from gen_privs_tests where grantee = '<{`!expand('%:t:r')}>';
+\o
+
+
+SELECT * FROM finish();
+ROLLBACK;

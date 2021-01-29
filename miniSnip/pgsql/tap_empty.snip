@@ -1,8 +1,2 @@
-? pg_tap test starter
-BEGIN;
-SELECT plan(<{1}>);
-
-<{+}>
-
-SELECT * FROM finish();
-ROLLBACK;
+? pg_tap is empty
+SELECT is_empty('<{query}>', 'is empty');

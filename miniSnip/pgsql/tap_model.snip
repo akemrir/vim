@@ -1,10 +1,14 @@
 ? pg_tap model
-BEGIN; -- Start the transaction
+BEGIN;
 SELECT plan(<{2}>);
 
 \o cols.txt
-select text from cols_tests where schema_table = '<{schema}>.<{model}>';
-select text from col_tests where schema_table = '<{~2}>.<{~3}>';
+select text from gen_cols_tests where schema_table = '<{schema}>.<{model}>';
+select text from gen_col_tests where schema_table = '<{~2}>.<{~3}>';
+select text from gen_col_has_default_tests where schema_table = '<{~2}>.<{~3}>';
+select text from gen_col_not_null_tests where schema_table = '<{~2}>.<{~3}>';
+select text from gen_index_tests where schema_table = '<{~2}>.<{~3}>';
+select text from gen_trigger_tests where schema_table = '<{~2}>.<{~3}>';
 \o
 
 -- Columns

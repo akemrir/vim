@@ -1,0 +1,21 @@
+? pg_tap roles
+BEGIN;
+SELECT plan(1);
+
+SELECT roles_are(ARRAY[
+  '<{owner}>',
+  'anon',
+  'authenticator',
+  'pg_execute_server_program',
+  'pg_monitor',
+  'pg_read_all_settings',
+  'pg_read_all_stats',
+  'pg_read_server_files',
+  'pg_signal_backend',
+  'pg_stat_scan_tables',
+  'pg_write_server_files',
+  'superuser'
+]);
+
+SELECT * FROM finish();
+ROLLBACK;
