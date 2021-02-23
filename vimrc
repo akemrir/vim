@@ -238,13 +238,6 @@ function! <SID>SynStack()
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
 
-function! s:init_fern() abort
-  " Use 'select' instead of 'edit' for default 'open' action
-  " nmap <buffer> <right> <Plug>(fern-action-open:select)
-  nmap <buffer> l <Plug>(fern-action-expand)
-  " nmap <buffer> <left> <Plug>(fern-action-collapse)
-endfunction
-
 " vim-tbone sends keys to pane to execute query
 function! ColsTest(target)
   if empty(a:target)
@@ -575,7 +568,7 @@ map <leader>N :call NewFileInCurrentDir()<cr>
 " Disable Ex mode
 map Q <Nop>
 " Disable K looking stuff up
-map K <Nop>
+" map K <Nop> " dla 546
 " addon to browse buffers
 nnoremap <silent> [b :bprevious<CR>
 nnoremap <silent> ]b :bpnext<CR>
@@ -732,6 +725,7 @@ set completepopup=height:10,width:60,highlight:InfoPopup
 set omnifunc=syntaxcomplete#Complete
 set pumheight=20
 
+
 " Set default encoding to UTF-8
 set encoding=utf-8
 set termencoding=utf-8
@@ -751,14 +745,13 @@ set dictionary+=./tach.dict.txt
 au FileType * execute 'setlocal dict+=~/.vimjapet/'.&filetype.'.dict.txt'
 
 set path=**,./
-set tags+=.git/tags;
-set tags+=./tags;
+set tags+=.git/tags;tags+=.git/tags
 
 
 " PLUGINS AND PACKAGES {{{1
 " specjalnie, wymaga tego polyglot
-let g:polyglot_disabled = ['markdown', 'fish'] " for vim-polyglot users, it loads Plasticboy's markdown
-                                       " plugin which unfortunately interferes with mkdx list indentation.
+" let g:polyglot_disabled = ['markdown', 'fish'] " for vim-polyglot users, it loads Plasticboy's markdown
+"                                        " plugin which unfortunately interferes with mkdx list indentation.
 
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf.vim'
@@ -766,7 +759,7 @@ Plug 'dense-analysis/ale'
 Plug 'Jorengarenar/fauxClip'
 Plug 'Jorengarenar/miniSnip'
 Plug 'Jorengarenar/vim-sBnR'
-Plug 'majutsushi/tagbar'
+" Plug 'majutsushi/tagbar'
 Plug 'mbbill/undotree'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'puremourning/vimspector'
@@ -799,7 +792,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'ruby-formatter/rufo-vim'
 
 " użytkowe
-Plug 'tpope/vim-characterize'
+" Plug 'tpope/vim-characterize'
 " Plug 'tpope/vim-commentary'
 Plug 'tyru/caw.vim'
 Plug 'tpope/vim-eunuch'
@@ -822,7 +815,7 @@ Plug 'romainl/vim-qf'
 
 Plug 'adelarsq/vim-matchit'
 
-Plug 'sheerun/vim-polyglot'
+" Plug 'sheerun/vim-polyglot'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 
 Plug 'lifepillar/pgsql.vim'
@@ -830,7 +823,7 @@ Plug 'shushcat/vim-minimd'
 
 Plug 'vim-scripts/dbext.vim'
 
-Plug 'dag/vim-fish'
+" Plug 'dag/vim-fish'
 Plug 'terryma/vim-expand-region'
 
 Plug 'wincent/pinnacle'
@@ -839,8 +832,8 @@ Plug 'wincent/pinnacle'
 " Plug 'tpope/vim-rake'
 " Plug 'tpope/vim-rbenv'
 " Plug 'tpope/rbenv-ctags'
-Plug 'tpope/vim-dispatch'
-Plug 'ecomba/vim-ruby-refactoring'
+" Plug 'tpope/vim-dispatch'
+" Plug 'ecomba/vim-ruby-refactoring'
 " Plug 'chrisbra/Colorizer'
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 Plug 'kana/vim-textobj-user'
@@ -860,6 +853,10 @@ Plug 'nightsense/carbonized'
 Plug 'morhetz/gruvbox'
 Plug 'junegunn/goyo.vim'
 
+" language
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'Glench/Vim-Jinja2-Syntax'
+
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'vim-scripts/nginx.vim'
 " Plug 'tpope/vim-cucumber'
@@ -867,16 +864,16 @@ Plug 'vim-scripts/nginx.vim'
 Plug 'thoughtbot/vim-rspec'
 Plug 'rlue/vim-fold-rspec'
 " Plug 'tpope/vim-rvm'
-Plug 'vim-ruby/vim-ruby'
-Plug 'sunaku/vim-ruby-minitest'
+" Plug 'vim-ruby/vim-ruby'
+" Plug 'sunaku/vim-ruby-minitest'
 " Plug 'tpope/vim-bundler'
 Plug 'tpope/vim-endwise'
 
-Plug 'lambdalisue/fern.vim'
-Plug 'lambdalisue/fern-mapping-project-top.vim'
-Plug 'lambdalisue/fern-bookmark.vim'
-Plug 'lambdalisue/fern-renderer-nerdfont.vim'
-Plug 'ryanoasis/vim-devicons'
+" Plug 'lambdalisue/fern.vim'
+" Plug 'lambdalisue/fern-mapping-project-top.vim'
+" Plug 'lambdalisue/fern-bookmark.vim'
+" Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+" Plug 'ryanoasis/vim-devicons'
 
 Plug 'pearofducks/ansible-vim'
 Plug 'stephpy/vim-yaml'
@@ -1039,7 +1036,7 @@ let mucomplete#user_mappings = {'minis': "\<C-r>=miniSnip#completeMapping()\<CR>
 let g:mucomplete#chains = { 'default': ['minis', 'tags', 'dict', 'omni', 'keyn'], 'vim': ['path', 'cmd', 'keyn'] }
 let g:mucomplete#no_mappings = 1
 let g:no_plugin_maps = 1
-let g:mucomplete#minimum_prefix_length = 1
+let g:mucomplete#minimum_prefix_length = 2
 let g:mucomplete#ultisnips#match_at_start = 0
 let g:miniSnip_trigger = '<c-s>'
 call mucomplete#msg#set_notifications(3)
@@ -1194,6 +1191,7 @@ let g:lightline#ale#indicator_ok = "\uf00c "
 let g:rspec_command = "!bundle exec rspec {spec}"
 let g:loaded_tabline_vim = 1
 let g:tablineclosebutton=1
+let g:jsx_improve_motion_disable = 1
 
 " create or replace view dmx.device_activity as
 " create view dmx.device_activity as
@@ -1309,11 +1307,6 @@ autocmd FileType pgsql setlocal commentstring=--\ %s
 "         \ let b:auto_insert = 1 | setlocal nonu stl=%f |
 "         \ au WinEnter <buffer> if b:auto_insert | sil! norm! i | endif'
 " augroup END
-
-augroup fern-custom
-  autocmd! *
-  autocmd FileType fern call s:init_fern()
-augroup END
 
 runtime! vimrc.d/*.vim
 
