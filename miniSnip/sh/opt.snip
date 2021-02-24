@@ -1,0 +1,34 @@
+? options/args parsing
+
+usage()
+{
+cat << EOF
+usage: bash ./scripts/packndeploy -n service_name
+-r    | --target      (Required)            Target to observe
+-c    | --command     (Required)            Command to run
+-h    | --help                              Help
+EOF
+}
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -t | --target )
+      shift
+      target=$1
+      ;;
+    -c | --command )
+      shift
+      com=$1
+      ;;
+    -h | --help )
+      usage
+      exit
+      ;;
+    * )
+      usage
+      exit 1
+  esac
+  shift
+done
+
+opt_req

@@ -1,0 +1,5 @@
+? option requred
+if [[ -z "$<{service_name}>" ]]; then
+  echo "<{Service name is required, provide it with the flag: -n}> <{~1}>"
+  exit
+fi

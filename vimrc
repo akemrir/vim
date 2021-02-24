@@ -856,6 +856,8 @@ Plug 'junegunn/goyo.vim'
 " language
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'Glench/Vim-Jinja2-Syntax'
+" Plug 'yuezk/vim-js'
+Plug 'pangloss/vim-javascript'
 
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'vim-scripts/nginx.vim'
@@ -864,7 +866,7 @@ Plug 'vim-scripts/nginx.vim'
 Plug 'thoughtbot/vim-rspec'
 Plug 'rlue/vim-fold-rspec'
 " Plug 'tpope/vim-rvm'
-" Plug 'vim-ruby/vim-ruby'
+Plug 'vim-ruby/vim-ruby'
 " Plug 'sunaku/vim-ruby-minitest'
 " Plug 'tpope/vim-bundler'
 Plug 'tpope/vim-endwise'
@@ -1193,11 +1195,15 @@ let g:loaded_tabline_vim = 1
 let g:tablineclosebutton=1
 let g:jsx_improve_motion_disable = 1
 
+" wyłączenie dopisywania listy tagów z
+" /usr/share/vim/vim82/ftplugin/ruby.vim
+" lub vim-ruby
+let g:ruby_path = []
+
 " create or replace view dmx.device_activity as
 " create view dmx.device_activity as
 " create or replace view device_activity as
 " create view device_activity as
-
 call textobj#user#plugin('pgview', {
 \   'code': {
 \     'pattern': ['create\( or replace\)* view \w*\.*\w* as', ';$'],
