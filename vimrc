@@ -41,36 +41,6 @@ endif
 
 silent! helptags ALL " genereate help tags
 
-" COLORSCHEME {{{1
-
-" augroup colors
-"   au!
-"   au ColorScheme darkness hi cmakeCommand  cterm=bold
-"   au ColorScheme darkness hi Dimmer        cterm=italic ctermfg=245
-" augroup END
-
-try
-  set background=dark
-  " colorscheme darkness
-  colorscheme Vimer
-catch
-  set bg=dark
-  hi! ColorColumn ctermbg=233
-  hi! Comment     ctermfg=240
-  hi! link Folded Comment
-  hi! link LineNr Comment
-endtry
-
-hi Normal guibg=NONE ctermbg=NONE
-hi NonText guibg=NONE ctermbg=NONE
-hi LineNr guibg=NONE ctermbg=NONE
-hi SignColumn guibg=NONE ctermbg=NONE
-hi VertSplit guibg=NONE ctermbg=NONE
-
-hi TabLine      ctermfg=Black  ctermbg=Green     cterm=NONE
-hi TabLineFill  ctermfg=Black  ctermbg=Green     cterm=NONE
-hi TabLineSel   ctermfg=White  ctermbg=DarkBlue  cterm=NONE
-
 " COMMANDS {{{1
 
 command! -nargs=* GrepRename call <SID>GrepRename(<f-args>)
@@ -764,7 +734,6 @@ Plug 'mbbill/undotree'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'puremourning/vimspector'
 
-Plug 'Jorengarenar/vim-darkness'
 Plug 'Konfekt/FastFold'
 Plug 'Jorengarenar/vim-MvVis'
 " Plug 'Jorengarenar/vim-SQL-UPPER'
@@ -852,6 +821,12 @@ Plug 'mhinz/vim-grepper'
 Plug 'nightsense/carbonized'
 Plug 'morhetz/gruvbox'
 Plug 'junegunn/goyo.vim'
+
+" kolory
+Plug 'ayu-theme/ayu-vim'
+Plug 'aditya-azad/candle-grey'
+" Plug 'owickstrom/vim-colors-paramount'
+Plug '~/.vim/plugins/vim-colors-paramount'
 
 " language
 Plug 'MaxMEllon/vim-jsx-pretty'
@@ -1200,6 +1175,10 @@ let g:jsx_improve_motion_disable = 1
 " lub vim-ruby
 let g:ruby_path = []
 
+" let ayucolor="light"  " for light version of theme
+let ayucolor="mirage" " for mirage version of theme
+" let ayucolor="dark"   " for dark version of theme
+
 " create or replace view dmx.device_activity as
 " create view dmx.device_activity as
 " create or replace view device_activity as
@@ -1323,3 +1302,36 @@ endif
 call s:source_file('statusline.vim')
 
 set secure exrc
+
+" COLORSCHEME {{{1
+
+" augroup colors
+"   au!
+"   au ColorScheme darkness hi cmakeCommand  cterm=bold
+"   au ColorScheme darkness hi Dimmer        cterm=italic ctermfg=245
+" augroup END
+
+" try
+  set background=dark
+  " colorscheme ayu
+  " colorscheme Vimer
+  " colorscheme candle-grey-transparent
+  colorscheme paramount
+" catch
+"   set bg=dark
+"   hi! ColorColumn ctermbg=233
+"   hi! Comment     ctermfg=240
+"   hi! link Folded Comment
+"   hi! link LineNr Comment
+" endtry
+
+hi Normal guibg=NONE ctermbg=NONE
+hi NonText guibg=NONE ctermbg=NONE
+hi LineNr guibg=NONE ctermbg=NONE
+hi SignColumn guibg=NONE ctermbg=NONE
+hi VertSplit guibg=NONE ctermbg=NONE
+
+hi TabLine      ctermfg=Black  ctermbg=Green     cterm=NONE
+hi TabLineFill  ctermfg=Black  ctermbg=Green     cterm=NONE
+hi TabLineSel   ctermfg=White  ctermbg=DarkBlue  cterm=NONE
+

@@ -1,7 +1,10 @@
 ? if
 # FILE=/etc/docker
+# if [[ "$d" == "yes" ]]; then
+#
 # if [ -d "$FILE" ]; then
 #     echo "$FILE is a directory."
+#
 # if [ -f "$FILE" ]; then
 #     echo "$FILE exists."
 if <{[ "hello" == "hi" ] || [ 1 -gt 2 ]}>;
