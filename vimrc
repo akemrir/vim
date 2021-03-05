@@ -869,6 +869,8 @@ Plug 'algotech/ultisnips-php'
 Plug 'kristijanhusak/vim-simple-notifications'
 Plug 'triglav/vim-visual-increment'
 
+Plug 'wellle/context.vim'
+
 call plug#end()
 
 packadd cfilter
@@ -1169,6 +1171,8 @@ let g:rspec_command = "!bundle exec rspec {spec}"
 let g:loaded_tabline_vim = 1
 let g:tablineclosebutton=1
 let g:jsx_improve_motion_disable = 1
+# context.vim
+let g:context_enabled = 1
 
 " wyłączenie dopisywania listy tagów z
 " /usr/share/vim/vim82/ftplugin/ruby.vim
@@ -1334,4 +1338,3 @@ hi VertSplit guibg=NONE ctermbg=NONE
 hi TabLine      ctermfg=Black  ctermbg=Green     cterm=NONE
 hi TabLineFill  ctermfg=Black  ctermbg=Green     cterm=NONE
 hi TabLineSel   ctermfg=White  ctermbg=DarkBlue  cterm=NONE
-
