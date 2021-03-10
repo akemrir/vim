@@ -499,7 +499,8 @@ nnoremap <silent> <leader>F :Files %:p:h<CR>
 nnoremap <F1> :FZF -q <cfile><CR>
 nnoremap <F3> :JsFileImport<CR>
 nnoremap <F4> :Prettier<CR>
-nnoremap <F5> :Fern %:h -drawer -toggle<CR>
+" nnoremap <F5> :Fern %:h -drawer -toggle<CR>
+nnoremap <F5> :IndentLinesToggle<CR>
 nnoremap <silent> <leader>M :History<CR>
 nnoremap <silent> <leader>t :Tags<CR>
 nnoremap <silent> <leader>T :Tags <c-r><c-w><CR>
@@ -1038,7 +1039,7 @@ let g:fold_rspec_foldlevel = 2           " sets initial open/closed state of all
 let g:fold_rspec_foldminlines = 3        " disables closing of folds containing two lines or fewer
 let g:js_file_import_use_fzf = 1
 let g:js_file_import_string_quote = '"'
-let g:fern#renderer = "devicons"
+" let g:fern#renderer = "devicons"
 let g:memolist_path = expand('~/memos')
 let g:memolist_memo_suffix = "md"
 let g:mkdx#settings     = { 'highlight': { 'enable': 1 },
@@ -1171,7 +1172,7 @@ let g:rspec_command = "!bundle exec rspec {spec}"
 let g:loaded_tabline_vim = 1
 let g:tablineclosebutton=1
 let g:jsx_improve_motion_disable = 1
-# context.vim
+" context.vim
 let g:context_enabled = 1
 
 " wyłączenie dopisywania listy tagów z

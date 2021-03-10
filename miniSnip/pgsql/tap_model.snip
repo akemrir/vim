@@ -3,12 +3,12 @@ BEGIN;
 SELECT plan(<{2}>);
 
 \o cols.txt
-select text from gen_cols_tests where schema_table = '<{schema}>.<{model}>';
-select text from gen_col_tests where schema_table = '<{~2}>.<{~3}>';
-select text from gen_col_has_default_tests where schema_table = '<{~2}>.<{~3}>';
-select text from gen_col_not_null_tests where schema_table = '<{~2}>.<{~3}>';
-select text from gen_index_tests where schema_table = '<{~2}>.<{~3}>';
-select text from gen_trigger_tests where schema_table = '<{~2}>.<{~3}>';
+select text from gen_cols_tests where schema_table = '<{schema}>.<{model}>' order by text;
+select text from gen_col_tests where schema_table = '<{~2}>.<{~3}>' order by text;
+select text from gen_col_has_default_tests where schema_table = '<{~2}>.<{~3}>' order by text;
+select text from gen_col_not_null_tests where schema_table = '<{~2}>.<{~3}>' order by text;
+select text from gen_index_tests where schema_table = '<{~2}>.<{~3}>' order by text;
+select text from gen_trigger_tests where schema_table = '<{~2}>.<{~3}>' order by text;
 \o
 
 -- Columns

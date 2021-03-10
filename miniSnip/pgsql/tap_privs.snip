@@ -3,7 +3,7 @@ BEGIN;
 SELECT plan(<{2}>);
 
 \o cols.txt
-select text from gen_privs_tests where grantee = '<{`!expand('%:t:r')}>';
+select text from gen_privs_tests where grantee = '<{`!expand('%:t:r')}>' order by text;
 \o
 
 
