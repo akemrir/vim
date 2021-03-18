@@ -1,0 +1,17 @@
+? options/args parsing
+
+usage
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+  opt
+    *)
+      usage
+      exit
+  esac
+  shift
+done
+
+opt_req
+
+echo -e "\n$ID  $Name   $Manufacturing_date $Expire_date\n"

@@ -1254,7 +1254,8 @@ autocmd QuickFixCmdPost    l* nested lwindow
 " spell
 au BufReadPost,BufNewFile *.tex setlocal spell spelllang=pl
 " au BufReadPost,BufNewFile *.md setlocal spell spelllang=pl
-au BufReadPost,BufNewFile *.md setlocal spell foldmethod=syntax
+" au BufReadPost,BufNewFile *.md setlocal spell foldmethod=syntax
+au BufReadPost,BufNewFile *.md setlocal foldmethod=syntax
 au FileType gitcommit setlocal spell spelllang=en
 au FileType mail setlocal spell spelllang=pl
 

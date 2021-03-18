@@ -1,0 +1,10 @@
+? options/args parsing - usage help
+usage()
+{
+cat << EOF
+usage: bash ./scripts/packndeploy -n service_name
+-r    | --target      (Required)            Target to observe
+-c    | --command     (Required)            Command to run
+-h    | --help                              Help
+EOF
+}
