@@ -726,7 +726,6 @@ set tags+=.git/tags;tags+=.git/tags
 
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf.vim'
-Plug 'dense-analysis/ale'
 Plug 'Jorengarenar/fauxClip'
 Plug 'Jorengarenar/miniSnip'
 Plug 'Jorengarenar/vim-sBnR'
@@ -950,8 +949,8 @@ let $PAGER=''
 let g:ale_disable_lsp                = 1
 let g:ale_echo_msg_format            = '[%linter%]: %s'
 let g:ale_enabled                    = 0
-let g:ale_set_loclist                = 0
-let g:ale_set_quickfix               = 1
+" let g:ale_set_loclist                = 0
+" let g:ale_set_quickfix               = 0
 let g:ale_set_signs                  = 1
 let g:ale_sign_warning = ''
 let g:ale_sign_error = ''
