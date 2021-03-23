@@ -1,15 +1,15 @@
 ? pg_tap index
-SELECT has_index('<{schema}>', '<{model}>', '<{~2}>_<{column}>_idx', '<{~3}>', 'column has index -- <{~3}>' );
-SELECT has_index('<{~1}>', '<{~2}>', '<{~2}>_pkey', '<{~3}>', 'column has index -- <{~3}>' );
-SELECT has_index('<{~1}>', '<{~2}>', '<{~2}>_<{~3}>_idx', ARRAY['<{~3}>'], 'Column has index -- composite' );
-SELECT has_index('<{~1}>', '<{~2}>', '<{~2}>_pkey', ARRAY['<{~3}>'], 'Column has index -- composite' );
-SELECT indexes_are(
+select has_index('<{schema}>', '<{model}>', '<{~2}>_<{column}>_idx', '<{~3}>', 'column has index -- <{~3}>' );
+select has_index('<{~1}>', '<{~2}>', '<{~2}>_pkey', '<{~3}>', 'column has index -- <{~3}>' );
+select has_index('<{~1}>', '<{~2}>', '<{~2}>_<{~3}>_idx', array['<{~3}>'], 'column has index -- composite' );
+select has_index('<{~1}>', '<{~2}>', '<{~2}>_pkey', array['<{~3}>'], 'column has index -- composite' );
+select indexes_are(
     '<{~1}>',
     '<{~2}>',
-    ARRAY[
+    array[
       '<{~2}>_<{~3}>_idx',
       '<{~2}>_pkey'
     ]
 );
-SELECT index_is_unique('<{~1}>', '<{~2}>', '<{~2}>_<{~3}>_idx');
-SELECT index_is_unique('<{~1}>', '<{~2}>', '<{~2}>_pkey');
+select index_is_unique('<{~1}>', '<{~2}>', '<{~2}>_<{~3}>_idx');
+select index_is_unique('<{~1}>', '<{~2}>', '<{~2}>_pkey');

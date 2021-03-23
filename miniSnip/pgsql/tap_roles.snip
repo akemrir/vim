@@ -1,8 +1,8 @@
 ? pg_tap roles
-BEGIN;
-SELECT plan(1);
+begin;
+select plan(1);
 
-SELECT roles_are(ARRAY[
+select roles_are(array[
   '<{owner}>',
   'anon',
   'authenticator',
@@ -17,5 +17,5 @@ SELECT roles_are(ARRAY[
   'superuser'
 ]);
 
-SELECT * FROM finish();
-ROLLBACK;
+select * from finish();
+rollback;

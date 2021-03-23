@@ -1,5 +1,5 @@
 ? pg_tap diag to output to console
-SELECT diag( <{format('%s, %s', count(*), aa)}> ) FROM <{table}>;
-SELECT diag( <{format('%s - %s', count(*), user_id)}> ) FROM <{SCHEMA.user_activity group by user_id}>;
-SELECT diag( row_to_json(rr) ) FROM <{api.popular_word_phrase_relations}> rr;
-SELECT diag( format('(''%s'', ),', rr.col) ) FROM <{~2}> rr;
+select diag( <{format('%s, %s', count(*), aa)}> ) from <{table}>;
+select diag( <{format('%s - %s', count(*), user_id)}> ) from <{schema.user_activity group by user_id}>;
+select diag( row_to_json(rr) ) from <{api.popular_word_phrase_relations}> rr;
+select diag( format('(''%s'', ),', rr.col) ) from <{~2}> rr;

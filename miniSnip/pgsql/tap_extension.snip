@@ -1,9 +1,9 @@
 ? pg_tap extension
-BEGIN;
-SELECT plan(<{1}>);
+begin;
+select plan(<{1}>);
 
-SELECT has_extension( '<{SCHEMA}>', '<{extension}>' );
-SELECT has_extension( '<{~3}>' );
+select has_extension( '<{SCHEMA}>', '<{extension}>' );
+select has_extension( '<{~3}>' );
 
-SELECT * FROM finish();
-ROLLBACK;
+select * from finish();
+rollback;

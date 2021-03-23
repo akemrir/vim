@@ -1,5 +1,5 @@
 ? Select most frequent value in column
-SELECT <{column}>, COUNT(<{~1}>) AS <{value_occurrence}> FROM <{table}>
-GROUP BY <{~1}>
-ORDER BY <{~2}> DESC
-LIMIT <{how_many_to_display}>;
+select <{column}>, count(<{~1}>) as <{value_occurrence}> from <{table}>
+group by <{~1}>
+order by <{~2}> desc
+limit <{how_many_to_display}>;

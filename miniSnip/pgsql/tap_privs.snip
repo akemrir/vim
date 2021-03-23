@@ -1,11 +1,10 @@
 ? pg_tap privs
-BEGIN;
-SELECT plan(<{2}>);
+begin;
+select plan(<{2}>);
 
 \o cols.txt
 select text from gen_privs_tests where grantee = '<{`!expand('%:t:r')}>' order by text;
 \o
 
-
-SELECT * FROM finish();
-ROLLBACK;
+select * from finish();
+rollback;

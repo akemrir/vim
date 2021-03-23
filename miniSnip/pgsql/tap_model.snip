@@ -1,6 +1,6 @@
 ? pg_tap model
-BEGIN;
-SELECT plan(<{2}>);
+begin;
+select plan(<{2}>);
 
 \o cols.txt
 select text from gen_cols_tests where schema_table = '<{schema}>.<{model}>' order by text;
@@ -12,57 +12,57 @@ select text from gen_trigger_tests where schema_table = '<{~2}>.<{~3}>' order by
 \o
 
 -- Columns
--- SELECT columns_are('<{~2}>', '<{~3}>',
---   ARRAY[ 'id', 'user_id', 'body', 'lang', 'created_at', 'updated_at']
+-- select columns_are('<{~2}>', '<{~3}>',
+--   array[ 'id', 'user_id', 'body', 'lang', 'created_at', 'updated_at']
 -- );
 
--- SELECT col_type_is('<{~2}>', '<{~3}>', 'id', 'integer', 'type: integer' );
--- SELECT col_type_is('<{~2}>', '<{~3}>', 'user_id', 'text', 'type: text' );
--- SELECT col_type_is('<{~2}>', '<{~3}>', 'body', 'character varying(500)', 'type: character varying(500)' );
--- SELECT col_type_is('<{~2}>', '<{~3}>', 'lang', '<{~2}>.locale', 'type: <{~2}>.locale' );
--- SELECT col_type_is('<{~2}>', '<{~3}>', 'created_at', 'timestamp with time zone', 'type: timestamptz' );
--- SELECT col_type_is('<{~2}>', '<{~3}>', 'updated_at', 'timestamp with time zone', 'type: timestamptz' );
+-- select col_type_is('<{~2}>', '<{~3}>', 'id', 'integer', 'type: integer' );
+-- select col_type_is('<{~2}>', '<{~3}>', 'user_id', 'text', 'type: text' );
+-- select col_type_is('<{~2}>', '<{~3}>', 'body', 'character varying(500)', 'type: character varying(500)' );
+-- select col_type_is('<{~2}>', '<{~3}>', 'lang', '<{~2}>.locale', 'type: <{~2}>.locale' );
+-- select col_type_is('<{~2}>', '<{~3}>', 'created_at', 'timestamp with time zone', 'type: timestamptz' );
+-- select col_type_is('<{~2}>', '<{~3}>', 'updated_at', 'timestamp with time zone', 'type: timestamptz' );
 
--- SELECT col_not_null('<{~2}>', '<{~3}>', 'user_id', 'should be not null');
--- SELECT col_not_null('<{~2}>', '<{~3}>', 'gender', 'should be not null');
+-- select col_not_null('<{~2}>', '<{~3}>', 'user_id', 'should be not null');
+-- select col_not_null('<{~2}>', '<{~3}>', 'gender', 'should be not null');
 
--- SELECT col_is_unique('<{~2}>', '<{~3}>', 'user_id', 'should be unique');
--- SELECT col_is_unique('<{~2}>', '<{~3}>', 'nickname', 'should be unique');
+-- select col_is_unique('<{~2}>', '<{~3}>', 'user_id', 'should be unique');
+-- select col_is_unique('<{~2}>', '<{~3}>', 'nickname', 'should be unique');
 
--- SELECT col_has_default('<{~2}>', '<{~3}>', 'user_id', 'should have default');
--- SELECT col_has_default('<{~2}>', '<{~3}>', 'created_at', 'should have default');
--- SELECT col_has_default('<{~2}>', '<{~3}>', 'updated_at', 'should have default');
+-- select col_has_default('<{~2}>', '<{~3}>', 'user_id', 'should have default');
+-- select col_has_default('<{~2}>', '<{~3}>', 'created_at', 'should have default');
+-- select col_has_default('<{~2}>', '<{~3}>', 'updated_at', 'should have default');
 --
--- Foreign key
--- SELECT fk_ok('<{~2}>', '<{~3}>', 'user_id', '<{~2}>', 'user', 'id');
--- SELECT col_is_fk('<{~2}>', '<{~3}>', 'user_id', 'should be foreign key');
+-- foreign key
+-- select fk_ok('<{~2}>', '<{~3}>', 'user_id', '<{~2}>', 'user', 'id');
+-- select col_is_fk('<{~2}>', '<{~3}>', 'user_id', 'should be foreign key');
 
--- Keys
--- SELECT has_pk('<{~2}>', '<{~3}>', 'Has a Primary Key' );
--- SELECT col_is_pk('<{~2}>', '<{~3}>', 'id', 'Column is Primary Key -- id' );
--- SELECT col_is_pk('<{~2}>', '<{~3}>', ARRAY['account_type','premium','attachable_type'], 'Column is Primary Key -- composite' );
+-- keys
+-- select has_pk('<{~2}>', '<{~3}>', 'Has a Primary Key' );
+-- select col_is_pk('<{~2}>', '<{~3}>', 'id', 'Column is Primary Key -- id' );
+-- select col_is_pk('<{~2}>', '<{~3}>', array['account_type','premium','attachable_type'], 'Column is Primary Key -- composite' );
 
--- Indexes
--- SELECT has_index('<{~2}>', '<{~3}>', '<{~3}>_id_idx', 'id', 'column has index -- id' );
--- SELECT has_index('<{~2}>', '<{~3}>', '<{~3}>_pkey', 'id', 'column has index -- id' );
--- SELECT has_index('<{~2}>', '<{~3}>', '<{~3}>_pkey', ARRAY['account_type','premium','attachable_type'], 'Column has index -- composite' );
--- SELECT indexes_are(
+-- indexes
+-- select has_index('<{~2}>', '<{~3}>', '<{~3}>_id_idx', 'id', 'column has index -- id' );
+-- select has_index('<{~2}>', '<{~3}>', '<{~3}>_pkey', 'id', 'column has index -- id' );
+-- select has_index('<{~2}>', '<{~3}>', '<{~3}>_pkey', array['account_type','premium','attachable_type'], 'Column has index -- composite' );
+-- select indexes_are(
 --     '<{~2}>',
 --     '<{~3}>',
---     ARRAY[
+--     array[
 --       '<{~3}>_id_idx',
 --       '<{~3}>_pkey'
 --     ]
 -- );
--- SELECT index_is_unique('<{~2}>', '<{~3}>', 'liking_comment_id_idx');
+-- select index_is_unique('<{~2}>', '<{~3}>', 'liking_comment_id_idx');
 
--- Constraints
--- SELECT col_is_unique( '<{~2}>', '<{~3}>', 'id', 'Id columns has unique constraint' );
+-- constraints
+-- select col_is_unique( '<{~2}>', '<{~3}>', 'id', 'Id columns has unique constraint' );
 
--- Checks
--- SELECT has_check('<{~2}>', '<{~3}>', 'has only_one_resource' );
--- SELECT col_has_check( '<{~2}>', '<{~3}>', 'nickname', 'has person_profile_nickname_check' );
--- SELECT col_has_check( '<{~2}>', '<{~3}>', 'birthyear', 'has person_profile_birthyear_check' );
+-- checks
+-- select has_check('<{~2}>', '<{~3}>', 'has only_one_resource' );
+-- select col_has_check( '<{~2}>', '<{~3}>', 'nickname', 'has person_profile_nickname_check' );
+-- select col_has_check( '<{~2}>', '<{~3}>', 'birthyear', 'has person_profile_birthyear_check' );
 
-SELECT * FROM finish();
-ROLLBACK;
+select * from finish();
+rollback;

@@ -1,8 +1,8 @@
 ? pg_tap enum
-BEGIN;
-SELECT plan(1);
+begin;
+select plan(1);
 
-SELECT enum_has_labels( '<{SCHEMA}>', '<{account_type}>', ARRAY['<{appadmin}>'<{,}>] );
+select enum_has_labels( '<{SCHEMA}>', '<{account_type}>', array['<{appadmin}>'<{,}>] );
 
-SELECT * FROM finish();
-ROLLBACK;
+select * from finish();
+rollback;

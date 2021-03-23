@@ -1,11 +1,11 @@
 ? Create role if not exist
 -- +goose StatementBegin
-DO $$
-BEGIN
-  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = '<{role}>') THEN
-    CREATE ROLE <{~1}> <{noinherit}>;
-  END IF;
-END
+do $$
+begin
+  if not exists (select 1 from pg_roles where rolname = '<{role}>') then
+    create role <{~1}> <{noinherit}>;
+  end if;
+end
 $$;
 -- +goose StatementEnd
 

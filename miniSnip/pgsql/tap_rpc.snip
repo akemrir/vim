@@ -1,6 +1,6 @@
 ? pg_tap rpc function
-BEGIN;
-SELECT plan(<{0}>);
+begin;
+select plan(<{0}>);
 
 tap_session
 
@@ -13,73 +13,73 @@ insert into <{~2}>.post(id, body, lang)
 insert into <{~2}>.comment(id, user_id, post_id, body)
   values(1, 'some_id', 1, 'Nowy post');
 
-SELECT ok( count(*) = 0 ) FROM <{~2}>.liking;
+select ok( count(*) = 0 ) from <{~2}>.liking;
 
 -- prepare not_completed_profile as select * from <{api.toggle_like}>('{ <{"post_id": 1}> }'::json);
--- SELECT throws_ok(
+-- select throws_ok(
 --   'not_completed_profile',
 --   'PT417',
 --   'Expectation failed'
 -- );
--- SELECT ok( count(*) = 0 ) FROM <{~2}>.comment;
+-- select ok( count(*) = 0 ) from <{~2}>.comment;
 
 update <{~2}>.person_profile set first_name = 'Gnom' where user_id = 'some_id';
 update <{~2}>.user set profile_completed = true where id = 'some_id';
 
-SELECT ok( count(*) = 0 ) FROM <{~2}>.liking;
+select ok( count(*) = 0 ) from <{~2}>.liking;
 
 prepare create_post_like as select * from <{~3}>('{ <{~4}> }'::json);
-SELECT results_eq(
+select results_eq(
   'create_post_like',
   $$
-    VALUES
+    values
       (1)
   $$
 );
-SELECT results_eq(
+select results_eq(
   'select user_id::text, post_id::text, comment_id::text from <{~2}>.liking',
-  $$VALUES ('some_id'::text, '1'::text, null)$$
+  $$values ('some_id'::text, '1'::text, null)$$
 );
-SELECT ok( count(*) = 1 ) FROM <{~2}>.liking;
+select ok( count(*) = 1 ) from <{~2}>.liking;
 
 prepare delete_post_like as select * from <{~3}>('{ <{~4}> }'::json);
-SELECT results_eq(
+select results_eq(
   'delete_post_like',
   $$
-    VALUES
+    values
       (1)
   $$
 );
-SELECT is_empty('select * from <{~2}>.liking');
-SELECT ok( count(*) = 0 ) FROM <{~2}>.liking;
+select is_empty('select * from <{~2}>.liking');
+select ok( count(*) = 0 ) from <{~2}>.liking;
 
 prepare create_comment_like as select * from <{~3}>('{ <{~4}> }'::json);
-SELECT results_eq(
+select results_eq(
   'create_comment_like',
   $$
-    VALUES
+    values
       (1)
   $$
 );
-SELECT results_eq(
+select results_eq(
   'select user_id::text, post_id::text, comment_id::text from <{~2}>.liking',
   $$
-    VALUES
+    values
       ('some_id'::text, null, '1'::text)
   $$
 );
-SELECT ok( count(*) = 1 ) FROM <{~2}>.liking;
+select ok( count(*) = 1 ) from <{~2}>.liking;
 
 prepare delete_comment_like as select * from <{~3}>('{ <{~4}> }'::json);
-SELECT results_eq(
+select results_eq(
   'delete_comment_like',
   $$
-    VALUES
+    values
       (1)
   $$
 );
-SELECT is_empty('select * from <{~2}>.liking');
-SELECT ok( count(*) = 0 ) FROM <{~2}>.liking;
+select is_empty('select * from <{~2}>.liking');
+select ok( count(*) = 0 ) from <{~2}>.liking;
 
-SELECT * FROM finish();
-ROLLBACK;
+select * from finish();
+rollback;
