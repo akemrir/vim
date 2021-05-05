@@ -46,7 +46,7 @@ let s:light_purple    = { "gui": "#a790d5", "cterm": "140" }
 let s:yellow          = { "gui": "#F3E430", "cterm": "11"  }
 let s:light_yellow    = { "gui": "#ffff87", "cterm": "228"   }
 let s:dark_yellow     = { "gui": "#A89C14", "cterm": "3"   }
-let s:main            = { "gui": "#FFD7AF", "cterm": "3"   }
+let s:main            = { "gui": "#FE8874", "cterm": "3"   }
 
 let s:background = &background
 

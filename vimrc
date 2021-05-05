@@ -534,7 +534,7 @@ nmap <silent> <leader>gk <Plug>(GitGutterPrevHunk)
 map <Leader>rn :call RunNearestSpec()<CR>
 map <Leader>rl :call RunLastSpec()<CR>
 map <Leader>ra :call RunAllSpecs()<CR>
-map <silent> <leader>ss :cexpr [] \| :cg rspec_quickfix.out <CR><cr>
+map <silent> <leader>ss :cexpr [] \| :cg tests_quickfix.out <CR><cr>
 map <leader>N :call NewFileInCurrentDir()<cr>
 " Disable Ex mode
 map Q <Nop>
@@ -713,7 +713,7 @@ set foldmethod=syntax
 " set dictionary+=/usr/share/dict/words
 set dictionary+=./dict.txt
 set dictionary+=./tach.dict.txt
-au FileType * execute 'setlocal dict+=~/.vimjapet/'.&filetype.'.dict.txt'
+au FileType * execute 'setlocal dict+=~/.vim/ft-dict/'.&filetype.'.dict.txt'
 
 set path=**,./
 set tags+=.git/tags;tags+=.git/tags
@@ -863,7 +863,7 @@ Plug 'kristijanhusak/vim-js-file-import'
 Plug 'https://gitlab.com/neonunux/vim-open-or-create-path-and-file.git'
 
 Plug 'KabbAmine/zeavim.vim'
-Plug 'kkoomen/vim-doge'
+Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 Plug 'algotech/ultisnips-php'
 
 Plug 'kristijanhusak/vim-simple-notifications'
