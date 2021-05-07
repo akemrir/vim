@@ -92,14 +92,19 @@ execute "autocmd FileType ".
       \   "cmake"             .",".
       \   "lua"               .",".
       \   "markdown"          .",".
+      \   "minimd"          .",".
       \   "vim"               .",".
-      \ " setlocal tabstop=2"
+      \   " setlocal tabstop=2"
 
 " For thise filetypes set 'tabstop' to 3
 execute "autocmd FileType ".
       \   "ada"                .",".
       \   "plaintex,tex"       .",".
       \ " setlocal tabstop=3"
+
+execute "autocmd FileType ".
+      \   "minimd"           .",".
+      \   " setlocal shiftwidth=2"
 
 let s:formatprg_for_filetype = {
       \ "arduino"     : "uncrustify --l CPP base kr mb stroustrup 1tbs 2sw",
