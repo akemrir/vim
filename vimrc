@@ -869,7 +869,7 @@ Plug 'https://gitlab.com/neonunux/vim-open-or-create-path-and-file.git'
 
 Plug 'KabbAmine/zeavim.vim'
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
-Plug 'algotech/ultisnips-php'
+" Plug 'algotech/ultisnips-php'
 
 Plug 'kristijanhusak/vim-simple-notifications'
 Plug 'triglav/vim-visual-increment'
@@ -1042,7 +1042,8 @@ let g:fold_rspec_foldlevel = 2           " sets initial open/closed state of all
 " let g:fold_rspec_foldclose = 'all'       " closes folds automatically when the cursor is moved out of them (only applies to folds deeper than 'foldlevel')
 let g:fold_rspec_foldminlines = 3        " disables closing of folds containing two lines or fewer
 let g:js_file_import_use_fzf = 1
-let g:js_file_import_string_quote = '"'
+let g:js_file_import_string_quote = "'"
+" let g:js_file_import_force_require = 1 " dodawać do _vimrc gdy potrzeba
 " let g:fern#renderer = "devicons"
 let g:memolist_path = expand('~/memos')
 let g:memolist_memo_suffix = "md"
@@ -1070,7 +1071,7 @@ let g:ansible_yamlKeyName = 'yamlKey'
 " d: dim the instances of key= found
 " b: brighten the instances of key= found
 " n: turn this highlight off completely
-let g:ansible_attribute_highlight = "ob"
+let g:ansible_attribute_highlight = 'ob'
 let g:ansible_name_highlight = 'ob'
 let g:ansible_extra_keywords_highlight = 1
 " let g:ansible_normal_keywords_highlight = 'Comment'
@@ -1178,6 +1179,7 @@ let g:tablineclosebutton=1
 let g:jsx_improve_motion_disable = 1
 " context.vim
 let g:context_enabled = 1
+let g:context_filetype_blacklist = ['html']
 
 " wyłączenie dopisywania listy tagów z
 " /usr/share/vim/vim82/ftplugin/ruby.vim
